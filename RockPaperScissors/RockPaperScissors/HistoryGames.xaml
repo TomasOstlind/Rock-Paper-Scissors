@@ -8,6 +8,8 @@
     mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+         <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark"/>
+        <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
 
     </Grid>
 </Page>
