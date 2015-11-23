@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="RockPaperScissors.MainPage"
+    x:Class="RockPaperScissors.HistoryGames"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:RockPaperScissors"
@@ -8,7 +8,6 @@
     mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" Click="SliptView" RequestedTheme="Dark" />
-        <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+
     </Grid>
 </Page>

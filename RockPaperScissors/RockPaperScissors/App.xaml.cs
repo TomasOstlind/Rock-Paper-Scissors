@@ -33,6 +33,7 @@ namespace RockPaperScissors
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            ChechIfDbExist();
         }
 
         /// <summary>
@@ -103,6 +104,25 @@ namespace RockPaperScissors
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        /// <summary>
+        /// Checks if the database exists, if not create one
+        /// </summary>
+        private void ChechIfDbExist()
+        {
+            var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "GameHistoryDB.sqlite"); //Path for the DB
+
+            using (SQLite.Net.SQLiteConnection conn =
+                new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath))//The connection
+            {
+                var tableExistsQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='GameHistoryDB'"; //SQL-Query
+                var result = conn.ExecuteScalar<string>(tableExistsQuery);
+                if (result == null)
+                {
+                    conn.CreateTable<GameHistory>();
+                }
+            }
         }
     }
 }
