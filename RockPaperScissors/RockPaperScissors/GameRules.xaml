@@ -9,7 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
-            <!--För stora skärmar-->
+            <!--BiggerScreens-->
             <VisualStateGroup x:Name="BigScreen">
                 <VisualState>
                     <VisualState.StateTriggers>
@@ -27,8 +27,12 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            <!--End BigScreens-->
         </VisualStateManager.VisualStateGroups>
-        <Image x:Name="image" HorizontalAlignment="Right" Height="301" Margin="306,49,0,0" VerticalAlignment="Center" Width="324" Source="Assets/rules.jpg"/>
+
+        
+        <Image x:Name="image" HorizontalAlignment="Right" Height="301" Margin="306,49,0,0" VerticalAlignment="Center" Width="270" Source="Assets/rules.jpg"/>
+        
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="339">
         	<Run FontSize="18.6666666666667" Text="Rules of the Game!"/>
@@ -46,15 +50,14 @@
         		<Run Text="The winner of Rock Paper Scissors is determined as follows:"/>
         	</Span>
         	<LineBreak/>
-        	<Run Text="•&#x9;Rock defeats (smashes) Scissors. &#xD;&#xA;•&#x9;Scissors defeats (cuts) Paper. &#xD;&#xA;•&#x9;Paper defeats (covers) Rock."/>
-        	<Span>
-        		<Run Text="If both players choose the same item, they must play again."/>
-        	</Span>
+        	<Run Text="•&#x9;Rock defeats (smashes) Scissors. &#xD;&#xA;•&#x9;Scissors defeats (cuts) Paper. &#xD;&#xA;•&#x9;Paper defeats (covers) Rock. &#xD;&#xA;•&#x9;If both players choose the same item, they must play again."/>
         	<LineBreak/>
         	<Run Text=""/>
         	<LineBreak/>
         	<Run Text="You ca choose to play against a friend or the A.I, what ever you choose the rules are the same! "/>
             </TextBlock>
         </ScrollViewer>
+        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
+        <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
     </Grid>
 </Page>

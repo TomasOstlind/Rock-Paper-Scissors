@@ -8,7 +8,80 @@
     mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}"/>
+        <VisualStateManager.VisualStateGroups>
+            <!--BiggerScreens-->
+            <VisualStateGroup x:Name="BigScreen">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" MinWindowHeight="920"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--Setters for P1 Buttons-->
+                        <Setter Target="Rock_p1.Height" 
+                                Value="100" />
+                        <Setter Target="Rock_p1.Width" 
+                                Value="200" />
+                        <Setter Target="Rock_p1.FontSize" 
+                                Value="30" />
+                        <Setter Target="Paper_p1.Height" 
+                                Value="100" />
+                        <Setter Target="Paper_p1.Width" 
+                                Value="200" />
+                        <Setter Target="Paper_p1.FontSize" 
+                                Value="30" />
+                        <Setter Target="Paper_p1.VerticalAlignment" 
+                                Value="Center" />
+                        <Setter Target="Scissors_p1.Height" 
+                                Value="100" />
+                        <Setter Target="Scissors_p1.Width" 
+                                Value="200" />
+                        <Setter Target="Scissors_p1.FontSize" 
+                                Value="30" />
+                        <Setter Target="Scissors_p1.VerticalAlignment" 
+                                Value="Bottom" />
+                        <!--End Setters for P1 Buttons-->
+
+                        <!--Setters for P2 Buttons-->
+                        <Setter Target="Rock_p2.Height" 
+                                Value="100" />
+                        <Setter Target="Rock_p2.Width" 
+                                Value="200" />
+                        <Setter Target="Rock_p2.FontSize" 
+                                Value="30" />
+                        <Setter Target="Paper_p2.Height" 
+                                Value="100" />
+                        <Setter Target="Paper_p2.Width" 
+                                Value="200" />
+                        <Setter Target="Paper_p2.FontSize" 
+                                Value="30" />
+                        <Setter Target="Paper_p2.VerticalAlignment" 
+                                Value="Center" />
+                        <Setter Target="Scissors_p2.Height" 
+                                Value="100" />
+                        <Setter Target="Scissors_p2.Width" 
+                                Value="200" />
+                        <Setter Target="Scissors_p2.FontSize" 
+                                Value="30" />
+                        <Setter Target="Scissors_p2.VerticalAlignment" 
+                                Value="Bottom" />
+                        <!--End Setters for P2 Buttons-->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <!--End BigScreens-->
+        </VisualStateManager.VisualStateGroups>
+        <!--Buttons-->
+        <Button x:Name="Rock_p1" Content="Rock" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <Button x:Name="Paper_p1" Content="Paper" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <Button x:Name="Scissors_p1" Content="Scissors" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <Button x:Name="Rock_p2" Content="Rock" HorizontalAlignment="Right" Margin="565,85,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <Button x:Name="Paper_p2" Content="Paper" HorizontalAlignment="Right" Margin="565,154,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <Button x:Name="Scissors_p2" Content="Scissors" HorizontalAlignment="Right" Margin="565,224,0,0" VerticalAlignment="Top" Height="32" Width="65"/>
+        <!--End Buttons-->
+        
+        <!--Menu-->
+        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
         <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+        <!--End Menu-->
     </Grid>
 </Page>

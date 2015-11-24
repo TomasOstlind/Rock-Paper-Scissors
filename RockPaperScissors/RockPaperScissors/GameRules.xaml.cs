@@ -26,5 +26,10 @@ namespace RockPaperScissors
         {
             this.InitializeComponent();
         }
+
+        private void SplitView(object sender, RoutedEventArgs e)
+        {
+            MyPane.SplitView.IsPaneOpen = !MyPane.SplitView.IsPaneOpen;
+        }
     }
 }
