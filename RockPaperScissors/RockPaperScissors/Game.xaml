@@ -105,17 +105,54 @@
                         <Setter Target="imageP2.Width" 
                                 Value="500" />
                         <!--End Images P1 & P2-->
+                        
+                        <!--Buttons start game-->
+                        <Setter Target="EnterNameP1.Height" 
+                                Value="100" />
+                        <Setter Target="EnterNameP1.Width" 
+                                Value="250" />
+                        <Setter Target="EnterNameP1.FontSize" 
+                                Value="30" />
+                        
+                        <Setter Target="EnterNameP2.Height" 
+                                Value="100" />
+                        <Setter Target="EnterNameP2.Width" 
+                                Value="250" />
+                        <Setter Target="EnterNameP2.FontSize" 
+                                Value="30" />
+                        
+                        <Setter Target="btnChoosePMode.Height" 
+                                Value="80" />
+                        <Setter Target="btnChoosePMode.Width" 
+                                Value="80" />
+                        <Setter Target="btnChoosePMode.FontSize" 
+                                Value="30" />
+                        
+                        <Setter Target="btnStart.Height" 
+                                Value="50" />
+                        <Setter Target="btnStart.Width" 
+                                Value="200" />
+                        <Setter Target="btnStart.FontSize" 
+                                Value="30" />
+
+                        <Setter Target="GridStartButtons.Height"
+                                Value="150"/>
+                        <Setter Target="GridStartButtons.Width"
+                                Value="1000"/>
+                        <!--End Buttons start game-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <!--End BigScreens-->
         </VisualStateManager.VisualStateGroups>
+        
         <!--Buttons-->
         <Grid x:Name="GridButtonsP1" HorizontalAlignment="Left" Width="70" Height="200" VerticalAlignment="Center">
         <Button x:Name="Rock_p1" Content="Rock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="65"/>
         <Button x:Name="Paper_p1" Content="Paper" HorizontalAlignment="Left" VerticalAlignment="Center" Height="32" Width="65"/>
         <Button x:Name="Scissors_p1" Content="Scissors" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="32" Width="65"/>
         </Grid>
+        
         <Grid x:Name="GridButtonsP2" HorizontalAlignment="Right" Width="70" Height="200" VerticalAlignment="Center">
         <Button x:Name="Rock_p2" Content="Rock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Width="65"/>
         <Button x:Name="Paper_p2" Content="Paper" HorizontalAlignment="Right" VerticalAlignment="Center" Height="32" Width="65"/>
@@ -124,6 +161,7 @@
         <!--End Buttons-->
 
         <TextBlock x:Name="textBlockWinner" HorizontalAlignment="Center" Margin="0,291,0,5" TextWrapping="Wrap" Text="Tomas wins!" VerticalAlignment="Bottom" FontSize="53.333" Foreground="#FFD61717" SelectionHighlightColor="#FF060400" RequestedTheme="Dark"/>
+        
         <!--Grid for Images & Names-->
         <Grid x:Name="GridForImages" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="201" Margin="116,0,107,74" Width="417">
             <Grid VerticalAlignment="Top" Margin="0,10,0,0">
@@ -139,11 +177,13 @@
             </Image>
         </Grid>
         <!--End Grid for Images & Names-->
-        <Grid HorizontalAlignment="Center" Height="75" VerticalAlignment="Top" Width="490">
+        
+        <!--Grid for buttons to start game-->
+        <Grid x:Name="GridStartButtons" HorizontalAlignment="Center" Height="75" VerticalAlignment="Top" Width="490">
             <Button Content="Name player one" x:Name="EnterNameP1" Height="35" HorizontalAlignment="Left">
                 <Button.Flyout>
                     <Flyout>
-                        <StackPanel Width="406">
+                        <StackPanel Width="206">
                             <TextBlock Text="Insert Name:" FontSize="16"
                            FontWeight="SemiLight" FontFamily="Segoe UI"
                            Margin="0,0,0,10"  />
@@ -161,7 +201,7 @@
             <Button Content="Name player two" x:Name="EnterNameP2" Height="35" HorizontalAlignment="Right">
                 <Button.Flyout>
                     <Flyout>
-                        <StackPanel Width="406">
+                        <StackPanel Width="206">
                             <TextBlock Text="Insert Name:" FontSize="16"
                            FontWeight="SemiLight" FontFamily="Segoe UI"
                            Margin="0,0,0,10"  />
@@ -173,6 +213,8 @@
                 </Button.Flyout>
             </Button>
         </Grid>
+        <!--End Grid for buttons to start game-->
+        
         <!--Menu-->
         <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
         <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
