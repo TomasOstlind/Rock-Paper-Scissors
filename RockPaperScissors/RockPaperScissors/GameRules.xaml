@@ -20,10 +20,14 @@
                                 Value="800" />
                         <Setter Target="image.Width" 
                                 Value="800" />
-                        <Setter Target="textBlock.Height" 
-                                Value="500" />
-                        <Setter Target="textBlock.Width" 
-                                Value="700" />
+                        <Setter Target="textBlockRules.Height" 
+                                Value="800" />
+                        <Setter Target="textBlockRules.Width" 
+                                Value="1000" />
+                        <Setter Target="textBlockRules.FontSize" 
+                                Value="30" />
+                        <Setter Target="title.FontSize" 
+                                Value="35" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -34,8 +38,8 @@
         <Image x:Name="image" HorizontalAlignment="Right" Height="301" Margin="306,49,0,0" VerticalAlignment="Center" Width="270" Source="Assets/rules.jpg"/>
         
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="339">
-        	<Run FontSize="18.6666666666667" Text="Rules of the Game!"/>
+            <TextBlock x:Name="textBlockRules" HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="339">
+        	<Run x:Name="title" FontSize="18.6666666666667" Text="Rules of the Game!"/>
         	<Run Text=" "/>
         	<LineBreak/>
         	<Run/>
