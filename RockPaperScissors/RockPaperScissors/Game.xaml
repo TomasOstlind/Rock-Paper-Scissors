@@ -199,7 +199,7 @@
                            Margin="0,0,0,10"  />
                             <TextBox x:Name="ValueTextBoxP1" />
                             <Button Content="Ok" HorizontalAlignment="Right"
-                        FontSize="16" Margin="0,10,0,0"  />
+                        FontSize="16" Margin="0,10,0,0" Click="Button_Click_P2"  />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -217,7 +217,7 @@
                            Margin="0,0,0,10"  />
                             <TextBox x:Name="ValueTextBoxP2" />
                             <Button Content="Ok" HorizontalAlignment="Right"
-                        FontSize="16" Margin="0,10,0,0"  />
+                        FontSize="16" Margin="0,10,0,0" Click="Button_Click_P2"  />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

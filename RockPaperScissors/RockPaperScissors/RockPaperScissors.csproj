@@ -125,10 +125,11 @@
     <None Include="RockPaperScissors_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\fingers.png" />
     <Content Include="Assets\paper.png" />
     <Content Include="Assets\rock.png" />
     <Content Include="Assets\rules.jpg" />
-    <Content Include="Assets\scissor.png" />
+    <Content Include="Assets\scissors.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -20,6 +21,10 @@ namespace RockPaperScissors
     {
         //------------Varibles-------------------
         private int vs = 0; //To check if user have choosen PvP or PvC
+        private BitmapImage iBeforeSelection = new BitmapImage();
+        private BitmapImage iRock = new BitmapImage();
+        private BitmapImage iPaper = new BitmapImage();
+        private BitmapImage iScissors = new BitmapImage();
 
         public Game()
         {
@@ -31,10 +36,30 @@ namespace RockPaperScissors
         /// </summary>
         private void InitializeGui()
         {
+            AssaignImages();
             EnterNameP2.Visibility = Visibility.Collapsed;
             GridButtonsP1.Visibility = Visibility.Collapsed;
             GridButtonsP2.Visibility = Visibility.Collapsed;
+            imageP1.Source = iBeforeSelection;
+            imageP2.Source = iBeforeSelection;
+            textBlockWinner.Text = "";
+            textBlockP1.Text = "";
+            textBlockP2.Text = "";
+        }
+        /// <summary>
+        /// Assagin images that the game uses
+        /// </summary>
+        private void AssaignImages()
+        {
+            Uri image_before_selection = new Uri("ms-appx:/Assets/fingers.png", UriKind.RelativeOrAbsolute);
+            Uri paper = new Uri("ms-appx:/Assets/paper.png", UriKind.RelativeOrAbsolute);
+            Uri rock = new Uri("ms-appx:/Assets/rock.png", UriKind.RelativeOrAbsolute);
+            Uri scissors = new Uri("ms-appx:/Assets/scissors.png", UriKind.RelativeOrAbsolute);
 
+            iBeforeSelection.UriSource = image_before_selection;
+            iRock.UriSource = rock;
+            iScissors.UriSource = scissors;
+            iPaper.UriSource = paper;
         }
 
         private void SplitView(object sender, RoutedEventArgs e)
@@ -60,6 +85,17 @@ namespace RockPaperScissors
                 EnterNameP2.Visibility = Visibility.Collapsed;
                 btnChoosePMode.Content = "PvP";
             }
+        }
+
+
+        private void Button_Click_P1(object sender, RoutedEventArgs e)
+        {
+            textBlockP1.Text = ValueTextBoxP1.Text;
+        }
+
+        private void Button_Click_P2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
