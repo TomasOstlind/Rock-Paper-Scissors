@@ -25,6 +25,7 @@ namespace RockPaperScissors
         private BitmapImage iRock = new BitmapImage();
         private BitmapImage iPaper = new BitmapImage();
         private BitmapImage iScissors = new BitmapImage();
+        private GameHandler game;
 
         public Game()
         {
@@ -44,7 +45,7 @@ namespace RockPaperScissors
             imageP2.Source = iBeforeSelection;
             textBlockWinner.Text = "";
             textBlockP1.Text = "";
-            textBlockP2.Text = "";
+            textBlockP2.Text = "Computer";
         }
         /// <summary>
         /// Assagin images that the game uses
@@ -78,24 +79,80 @@ namespace RockPaperScissors
                 vs = 1;
                 EnterNameP2.Visibility = Visibility.Visible;
                 btnChoosePMode.Content = "PvC";
+                if (String.IsNullOrEmpty(textBlockP2.Text))
+                {
+                    textBlockP2.Text = "";
+                }
+                else
+                {                
+                    textBlockP2.Text = ValueTextBoxP2.Text;
+                }
             }
             else 
             {
                 vs = 0;
                 EnterNameP2.Visibility = Visibility.Collapsed;
                 btnChoosePMode.Content = "PvP";
+                textBlockP2.Text = "Computer";
             }
         }
 
-
+        /// <summary>
+        /// Assaigns the value from the textbox to P1 name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_P1(object sender, RoutedEventArgs e)
         {
-            textBlockP1.Text = ValueTextBoxP1.Text;
+            if (CheckNameLenght(ValueTextBoxP1.Text))
+            {
+                textBlockP1.Text = ValueTextBoxP1.Text;
+                EnterNameP1.Flyout.Hide();
+            }
         }
 
+        /// <summary>
+        /// Assaigns the value from the textbox to P2 name
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_P2(object sender, RoutedEventArgs e)
         {
+            if (CheckNameLenght(ValueTextBoxP2.Text))
+            {
+                textBlockP2.Text = ValueTextBoxP2.Text;
+                EnterNameP2.Flyout.Hide();
+            }
+        }
+        /// <summary>
+        /// User has start the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_Start(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        /// <summary>
+        /// Checks how long the name is
+        /// </summary>
+        /// <param name="nameIn"></param>
+        private bool CheckNameLenght(string nameIn)
+        {
+            if (nameIn.Length > 6)
+            {
+                var msg = new Windows.UI.Popups.MessageDialog(
+               "Sorry! The name cant be longer than six letters.");
+
+               msg.ShowAsync(); //Im aware of the async but in this case i dont need async
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
