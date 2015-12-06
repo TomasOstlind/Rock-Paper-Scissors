@@ -325,13 +325,13 @@ namespace RockPaperScissors
         /// </summary>
         private void DisplayWinner()
         {
-            if (game.PointsP1 > game.PointsP2)
+            if (game.PointsP1 == game.PointsP2)
             {
-                textBlockWinner.Text = textBlockP1.Text + " won the game!";
+                textBlockWinner.Text = game.CalcTotalWinner();
             }
             else
             {
-                textBlockWinner.Text = textBlockP2.Text + " won the game!";
+                textBlockWinner.Text = game.CalcTotalWinner() + " won the game!";
             }
         }
         /// <summary>
@@ -366,7 +366,6 @@ namespace RockPaperScissors
                 imageP1.Source = iBeforeSelection;
                 imageP2.Source = iBeforeSelection;
                 textBlockWinner.Text = "";
-                //TODO fix add new row to db
             }
 
 

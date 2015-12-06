@@ -22,7 +22,6 @@ namespace RockPaperScissors
         public int PointsP2 { get; set; }
         public int RoundCounter { get; set; }
         public int ComputersChoice { get { return computerChoice; } }
-
         #endregion
 
         /// <summary>
@@ -40,12 +39,43 @@ namespace RockPaperScissors
         //----------------Methods----------------------------------
         #region methods
         /// <summary>
+        /// Returns the winner of the total game
+        /// </summary>
+        /// <returns></returns>
+        public string CalcTotalWinner()
+        {
+            var games = (from g in conn.Table<GameHistory>()
+                         select g).Last();
+            if (PointsP1 == PointsP2)
+            {
+                games.Winner = "No winner, tie!";
+                conn.Update(games);
+                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                return "No winner, tie!";
+            }
+            else if (PointsP1 > PointsP2)
+            {
+                games.Winner = nameP1;
+                conn.Update(games);
+                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                return nameP1;
+            }
+            else
+            {
+                games.Winner = nameP2;
+                conn.Update(games);
+                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                return nameP2;
+            }
+        }
+        /// <summary>
         /// Connects to the local SQLite database
         /// </summary>
         private void ConnectToDB()
         {
-            var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "MoviesDb.sqlite");
+            var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "GameHistoryDB.sqlite");
             conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath);
+            conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
         }
         /// <summary>
         /// Handles the gamelogic
@@ -60,31 +90,61 @@ namespace RockPaperScissors
             if (choiceP2 == 0)
             {
                 choiceP2 = ComputerSelection();
-                if (RoundCounter == 3)
-                {
-                    int winner = CalcWinner(choiceP1, choiceP2);
-                    //TODO Save to DB
-                    return winner;
-                }
-                else
-                {
-                    int winner = CalcWinner(choiceP1, choiceP2);
-                    return winner;
-                }
+                int winner = CalcWinner(choiceP1, choiceP2);
+                SaveToDB(choiceP1, choiceP2);
+                return winner;
+
             }
             else
             {
-                if (RoundCounter == 3)
-                {
-                    int winner = CalcWinner(choiceP1, choiceP2);
-                    //TODO save to DB
-                    return winner;
-                }
-                else
-                {
-                    int winner = CalcWinner(choiceP1, choiceP2);
-                    return winner;
-                }
+                int winner = CalcWinner(choiceP1, choiceP2);
+                SaveToDB(choiceP1, choiceP2);
+                return winner;
+            }
+        }
+        /// <summary>
+        /// Saves the played game
+        /// </summary>
+        private void SaveToDB(int choiceP1, int choiceP2)
+        {
+            var games = (from g in conn.Table<GameHistory>()
+                         select g).Last();
+            if (RoundCounter == 1)
+            {
+                games.RoundOne = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
+                conn.Update(games);
+            }
+            else if (RoundCounter == 2)
+            {
+                games.RoundTwo = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
+                conn.Update(games);
+            }
+            else if (RoundCounter == 3)
+            {
+                games.RoundThree = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
+                games.PointsPlayerOne = PointsP1;
+                games.PointsPlayerTwo = PointsP2;
+                conn.Update(games);
+            }
+        }
+        /// <summary>
+        /// Translates the number to text to store in database
+        /// </summary>
+        /// <param name="choiceIn"></param>
+        /// <returns></returns>
+        private string assaignChoiceInText(int choiceIn)
+        {
+            if (choiceIn == 1)
+            {
+                return "Rock";
+            }
+            else if (choiceIn == 2)
+            {
+                return "Paper";
+            }
+            else
+            {
+                return "Scissors";
             }
         }
         /// <summary>

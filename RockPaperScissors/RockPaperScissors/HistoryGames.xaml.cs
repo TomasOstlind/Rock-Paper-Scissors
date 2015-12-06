@@ -20,10 +20,22 @@ namespace RockPaperScissors
         public HistoryGames()
         {
             this.InitializeComponent();
+            InitializeGUI();
         }
         private void SplitView(object sender, RoutedEventArgs e)
         {
             MyPane.SplitView.IsPaneOpen = !MyPane.SplitView.IsPaneOpen;
+        }
+        private void InitializeGUI()
+        {
+            var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "GameHistoryDB.sqlite");
+            SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath);
+
+            var games = from g in conn.Table<GameHistory>()
+                        select g;
+
+            gridView.ItemsSource = games.ToList();
+            //TODO fix this
         }
     }
 }
