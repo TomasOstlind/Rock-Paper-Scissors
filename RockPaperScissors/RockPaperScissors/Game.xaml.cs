@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -19,18 +20,46 @@ namespace RockPaperScissors
 {
     public sealed partial class Game : Page
     {
-        //------------Varibles-------------------
-        private int vs = 0; //To check if user have choosen PvP or PvC
+        //------------Private fields-------------------
+        private int vs = 0; //To check if user have choosen PvP or PvC | 0 = PvC | 1 = PvP
         private BitmapImage iBeforeSelection = new BitmapImage();
         private BitmapImage iRock = new BitmapImage();
         private BitmapImage iPaper = new BitmapImage();
         private BitmapImage iScissors = new BitmapImage();
         private GameHandler game;
+        private int choiceP1 = 0;
+        private int choiceP2 = 0;
 
         public Game()
         {
             this.InitializeComponent();
-            InitializeGui();
+            if (!CheckGamePlaying())
+            {
+                InitializeGui();
+            }
+            else
+            {
+                InitializePlayingGame();
+            }
+        }
+        /// <summary>
+        /// Assagin all the values from the game that is currently active
+        /// </summary>
+        private void InitializePlayingGame()
+        {
+            AssaignImages();
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Checks if a game is playing or not
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckGamePlaying()
+        {
+            return false;
+            //TODO check with DB if the is a game playing
         }
         /// <summary>
         /// Handles the pre-GUI
@@ -62,7 +91,11 @@ namespace RockPaperScissors
             iScissors.UriSource = scissors;
             iPaper.UriSource = paper;
         }
-
+        /// <summary>
+        /// Handles the manu pane
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SplitView(object sender, RoutedEventArgs e)
         {
             MyPane.SplitView.IsPaneOpen = !MyPane.SplitView.IsPaneOpen;
@@ -84,11 +117,11 @@ namespace RockPaperScissors
                     textBlockP2.Text = "";
                 }
                 else
-                {                
+                {
                     textBlockP2.Text = ValueTextBoxP2.Text;
                 }
             }
-            else 
+            else
             {
                 vs = 0;
                 EnterNameP2.Visibility = Visibility.Collapsed;
@@ -125,15 +158,251 @@ namespace RockPaperScissors
             }
         }
         /// <summary>
-        /// User has start the game
+        /// User start the game
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Button_Click_Start(object sender, RoutedEventArgs e)
         {
+            if (vs == 0 && !String.IsNullOrEmpty(textBlockP1.Text))
+            {
+                GridButtonsP1.Visibility = Visibility.Visible;
+                GridStartButtons.Visibility = Visibility.Collapsed;
 
+                game = new GameHandler(textBlockP1.Text, "Computer");
+            }
+            else if (vs == 1 && !String.IsNullOrEmpty(textBlockP1.Text) && !String.IsNullOrEmpty(textBlockP2.Text))
+            {
+                GridButtonsP1.Visibility = Visibility.Visible;
+                GridButtonsP2.Visibility = Visibility.Visible;
+                GridStartButtons.Visibility = Visibility.Collapsed;
+
+                game = new GameHandler(textBlockP1.Text, textBlockP2.Text);
+            }
+            else
+            {
+                var msg = new Windows.UI.Popups.MessageDialog("You must enter name(s) to play!", "Name(s) needed!");
+
+                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game
+            }
+        }
+        /// <summary>
+        /// Handles the player 1 choices
+        /// </summary>
+        private void Player1Selection(int selectionIn)
+        {
+            if (choiceP2 == 0)
+            {
+                GridButtonsP1.Visibility = Visibility.Collapsed;
+                choiceP1 = selectionIn;
+            }
+            else
+            {
+                GridButtonsP1.Visibility = Visibility.Collapsed;
+                choiceP1 = selectionIn;
+
+                ShowPlayersChoice();
+                Play();
+            }
+            //If someone playing against the computer
+            if (vs == 0)
+            {
+                GridButtonsP1.Visibility = Visibility.Collapsed;
+                choiceP1 = selectionIn;
+
+                ShowPlayersChoice();
+                Play();
+            }
+        }
+        /// <summary>
+        /// Handles the player 2 choices
+        /// </summary>
+        private void Player2Selection(int selectionIn)
+        {
+            if (choiceP1 == 0)
+            {
+                GridButtonsP2.Visibility = Visibility.Collapsed;
+                choiceP2 = selectionIn;
+            }
+            else
+            {
+                GridButtonsP2.Visibility = Visibility.Collapsed;
+                choiceP2 = selectionIn;
+
+                ShowPlayersChoice();
+                Play();
+            }
         }
 
+        private void Play()
+        {
+            int winner = game.Start(choiceP1, choiceP2);
+            if (vs == 0)
+            {
+                PlayerVsComputer(winner);
+            }
+            else
+            {
+                PlayerVsPlayer(winner);
+            }
+
+        }
+        /// <summary>
+        /// Handles the PvP
+        /// </summary>
+        /// <param name="winner"></param>
+        private async void PlayerVsPlayer(int winnerIn)
+        {
+            textBlockPointsP1.Text = game.PointsP1.ToString();
+            textBlockPointsP2.Text = game.PointsP2.ToString();
+            if (game.RoundCounter == 3)
+            {
+                DisplayWinner();
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                textBlockPointsP1.Text = "0";
+                textBlockPointsP2.Text = "0";
+                Reset();
+            }
+            else if (winnerIn == 1)
+            {
+                textBlockWinner.Text = "It was a tie...";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+            else if (winnerIn == 2)
+            {
+                textBlockWinner.Text = textBlockP1.Text + " was the winner!";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+            else
+            {
+                textBlockWinner.Text = textBlockP2.Text + " was the winner!";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+
+        }
+        /// <summary>
+        /// Handles PvC
+        /// </summary>
+        /// <param name="winner"></param>
+        private async void PlayerVsComputer(int winnerIn)
+        {
+            ShowComputerChoice();
+            textBlockPointsP1.Text = game.PointsP1.ToString();
+            textBlockPointsP2.Text = game.PointsP2.ToString();
+            if (game.RoundCounter == 3)
+            {
+                DisplayWinner();
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                textBlockPointsP1.Text = "0";
+                textBlockPointsP2.Text = "0";
+                Reset();
+            }
+            else if (winnerIn == 1)
+            {
+                textBlockWinner.Text = "It was a tie...";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+            else if (winnerIn == 2)
+            {
+                textBlockWinner.Text = textBlockP1.Text + " was the winner!";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+            else
+            {
+                textBlockWinner.Text = textBlockP2.Text + " was the winner!";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                Reset();
+            }
+
+        }
+        /// <summary>
+        /// Displayes the total winner
+        /// </summary>
+        private void DisplayWinner()
+        {
+            if (game.PointsP1 > game.PointsP2)
+            {
+                textBlockWinner.Text = textBlockP1.Text + " won the game!";
+            }
+            else
+            {
+                textBlockWinner.Text = textBlockP2.Text + " won the game!";
+            }
+        }
+        /// <summary>
+        /// Resets the buttons, choice and text after a round
+        /// </summary>
+        private void Reset()
+        {
+            choiceP1 = 0;
+            choiceP2 = 0;
+
+            if (game.RoundCounter != 3)
+            {
+                GridButtonsP1.Visibility = Visibility.Visible;
+                if (vs != 0)
+                {
+                    GridButtonsP2.Visibility = Visibility.Visible;
+                }
+                imageP1.Source = iBeforeSelection;
+                imageP2.Source = iBeforeSelection;
+                textBlockWinner.Text = "";
+            }
+            else
+            {
+                game.RoundCounter = 0;
+                game.PointsP1 = 0;
+                game.PointsP2 = 0;
+                GridButtonsP1.Visibility = Visibility.Visible;
+                if (vs != 0)
+                {
+                    GridButtonsP2.Visibility = Visibility.Visible;
+                }
+                imageP1.Source = iBeforeSelection;
+                imageP2.Source = iBeforeSelection;
+                textBlockWinner.Text = "";
+                //TODO fix add new row to db
+            }
+
+
+        }
+        /// <summary>
+        /// Shows player one choice
+        /// </summary>
+        private void ShowPlayersChoice()
+        {
+            //-----Player 1------------
+            if (choiceP1 == 1)
+            {
+                imageP1.Source = iRock;
+            }
+            else if (choiceP1 == 2)
+            {
+                imageP1.Source = iPaper;
+            }
+            else if (choiceP1 == 3)
+            {
+                imageP1.Source = iScissors;
+            }
+            //-----Player 2------------
+            if (choiceP2 == 1)
+            {
+                imageP2.Source = iRock;
+            }
+            else if (choiceP2 == 2)
+            {
+                imageP2.Source = iPaper;
+            }
+            else if(choiceP2 == 3)
+            {
+                imageP2.Source = iScissors;
+            }
+        }
         /// <summary>
         /// Checks how long the name is
         /// </summary>
@@ -143,9 +412,9 @@ namespace RockPaperScissors
             if (nameIn.Length > 6)
             {
                 var msg = new Windows.UI.Popups.MessageDialog(
-               "Sorry! The name cant be longer than six letters.");
+               "Sorry! The name can´t be longer than six letters.", "Name to long");
 
-               msg.ShowAsync(); //Im aware of the async but in this case i dont need async
+                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game
 
                 return false;
             }
@@ -154,5 +423,80 @@ namespace RockPaperScissors
                 return true;
             }
         }
+
+        /// <summary>
+        /// Handles when to show what choice the computer did
+        /// </summary>
+        private void ShowComputerChoice()
+        {
+            if (game.ComputersChoice == 1)
+            {
+                imageP2.Source = iRock;
+            }
+            else if (game.ComputersChoice == 2)
+            {
+                imageP2.Source = iPaper;
+            }
+            else
+            {
+                imageP2.Source = iScissors;
+            }
+        }
+        #region Players RPS-button click
+        /// <summary>
+        /// Player one choses Rock
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P1_RockButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player1Selection(1);
+        }
+        /// <summary>
+        /// Player one choses Paper
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P1_PaperButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player1Selection(2);
+        }
+        /// <summary>
+        /// Player one choses Scissors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P1_ScissorsButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player1Selection(3);
+        }
+        /// <summary>
+        /// Player two choses Rock
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P2_RockButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player2Selection(1);
+        }
+        /// <summary>
+        /// Player two choses Paper
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P2_PaperButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player2Selection(2);
+        }
+        /// <summary>
+        /// Player two choses Scissors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void P2_ScissorsButtonClick(object sender, RoutedEventArgs e)
+        {
+            Player2Selection(3);
+        }
+        #endregion
     }
 }

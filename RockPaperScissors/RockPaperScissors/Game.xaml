@@ -156,15 +156,15 @@
 
         <!--Buttons-->
         <Grid x:Name="GridButtonsP1" HorizontalAlignment="Left" Width="70" Height="200" VerticalAlignment="Center">
-            <Button x:Name="Rock_p1" Content="Rock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="65"/>
-            <Button x:Name="Paper_p1" Content="Paper" HorizontalAlignment="Left" VerticalAlignment="Center" Height="32" Width="65"/>
-            <Button x:Name="Scissors_p1" Content="Scissors" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="32" Width="65"/>
+            <Button x:Name="Rock_p1" Content="Rock" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="65" Click="P1_RockButtonClick"/>
+            <Button x:Name="Paper_p1" Content="Paper" HorizontalAlignment="Left" VerticalAlignment="Center" Height="32" Width="65" Click="P1_PaperButtonClick"/>
+            <Button x:Name="Scissors_p1" Content="Scissors" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="32" Width="65" Click="P1_ScissorsButtonClick"/>
         </Grid>
 
         <Grid x:Name="GridButtonsP2" HorizontalAlignment="Right" Width="70" Height="200" VerticalAlignment="Center">
-            <Button x:Name="Rock_p2" Content="Rock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Width="65"/>
-            <Button x:Name="Paper_p2" Content="Paper" HorizontalAlignment="Right" VerticalAlignment="Center" Height="32" Width="65"/>
-            <Button x:Name="Scissors_p2" Content="Scissors" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="32" Width="65"/>
+            <Button x:Name="Rock_p2" Content="Rock" HorizontalAlignment="Right" VerticalAlignment="Top" Height="32" Width="65" Click="P2_RockButtonClick"/>
+            <Button x:Name="Paper_p2" Content="Paper" HorizontalAlignment="Right" VerticalAlignment="Center" Height="32" Width="65" Click="P2_PaperButtonClick"/>
+            <Button x:Name="Scissors_p2" Content="Scissors" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="32" Width="65" Click="P2_ScissorsButtonClick"/>
         </Grid>
         <!--End Buttons-->
 
