@@ -14,7 +14,6 @@ namespace RockPaperScissors
         private Random rnd = new Random();
         private int[] hands = new int[] { 1, 2, 3 }; // 1 = Rock | 2 = Paper | 3 = Scissors
         private int computerChoice;
-        private SQLite.Net.SQLiteConnection conn;
 
         //-----------------Properties-----------------------------
         #region props
@@ -29,53 +28,66 @@ namespace RockPaperScissors
         /// </summary>
         /// <param name="nameInP1"></param>
         /// <param name="nameInP2"></param>
-        public GameHandler(string nameInP1, string nameInP2)
+        public GameHandler(string nameInP1, string nameInP2, bool playing)
         {
             nameP1 = nameInP1;
             nameP2 = nameInP2;
-            ConnectToDB();
+            if (!playing)
+            {
+                CreateGameInDB();
+            }
+            else
+            {
+                AssaignExistingGame();
+            }
         }
-
         //----------------Methods----------------------------------
         #region methods
+
+        /// <summary>
+        /// Assaigns the current values from an existing game
+        /// </summary>
+        private void AssaignExistingGame()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Returns the winner of the total game
         /// </summary>
         /// <returns></returns>
         public string CalcTotalWinner()
         {
-            var games = (from g in conn.Table<GameHistory>()
+            var games = (from g in App.connection.Table<GameHistory>()
                          select g).Last();
             if (PointsP1 == PointsP2)
             {
                 games.Winner = "No winner, tie!";
-                conn.Update(games);
-                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                App.connection.Update(games);
+                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return "No winner, tie!";
             }
             else if (PointsP1 > PointsP2)
             {
                 games.Winner = nameP1;
-                conn.Update(games);
-                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                App.connection.Update(games);
+                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return nameP1;
             }
             else
             {
                 games.Winner = nameP2;
-                conn.Update(games);
-                conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+                App.connection.Update(games);
+                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return nameP2;
             }
         }
         /// <summary>
-        /// Connects to the local SQLite database
+        /// Creacte new game in the local SQLite database
         /// </summary>
-        private void ConnectToDB()
+        private void CreateGameInDB()
         {
-            var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "GameHistoryDB.sqlite");
-            conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath);
-            conn.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
+            App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
         }
         /// <summary>
         /// Handles the gamelogic
@@ -107,24 +119,24 @@ namespace RockPaperScissors
         /// </summary>
         private void SaveToDB(int choiceP1, int choiceP2)
         {
-            var games = (from g in conn.Table<GameHistory>()
+            var games = (from g in App.connection.Table<GameHistory>()
                          select g).Last();
             if (RoundCounter == 1)
             {
                 games.RoundOne = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
-                conn.Update(games);
+                App.connection.Update(games);
             }
             else if (RoundCounter == 2)
             {
                 games.RoundTwo = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
-                conn.Update(games);
+                App.connection.Update(games);
             }
             else if (RoundCounter == 3)
             {
                 games.RoundThree = assaignChoiceInText(choiceP1) + " | " + assaignChoiceInText(choiceP2);
                 games.PointsPlayerOne = PointsP1;
                 games.PointsPlayerTwo = PointsP2;
-                conn.Update(games);
+                App.connection.Update(games);
             }
         }
         /// <summary>

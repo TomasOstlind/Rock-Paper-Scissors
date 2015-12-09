@@ -33,6 +33,7 @@ namespace RockPaperScissors
         public Game()
         {
             this.InitializeComponent();
+
             if (!CheckGamePlaying())
             {
                 InitializeGui();
@@ -49,7 +50,27 @@ namespace RockPaperScissors
         {
             AssaignImages();
 
-            throw new NotImplementedException();
+            var games = (from g in App.connection.Table<GameHistory>()
+                         select g).Last();
+
+            game = new GameHandler(games.NamePlayerOne, games.NamePlayerTwo, true);
+
+            if (games.NamePlayerTwo == "Computer")
+            {
+                GridButtonsP1.Visibility = Visibility.Visible;
+                GridStartButtons.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                GridButtonsP1.Visibility = Visibility.Visible;
+                GridButtonsP2.Visibility = Visibility.Visible;
+                GridStartButtons.Visibility = Visibility.Collapsed;
+            }
+
+            textBlockP1.Text = games.NamePlayerOne;
+            textBlockP2.Text = games.NamePlayerTwo;
+            textBlockPointsP1.Text = game.PointsP1.ToString();
+            textBlockPointsP2.Text = game.PointsP2.ToString();
         }
 
         /// <summary>
@@ -58,8 +79,17 @@ namespace RockPaperScissors
         /// <returns></returns>
         private bool CheckGamePlaying()
         {
-            return false;
-            //TODO check with DB if the is a game playing
+            var games = (from g in App.connection.Table<GameHistory>()
+                         select g).Last();
+
+            if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         /// <summary>
         /// Handles the pre-GUI
@@ -169,7 +199,7 @@ namespace RockPaperScissors
                 GridButtonsP1.Visibility = Visibility.Visible;
                 GridStartButtons.Visibility = Visibility.Collapsed;
 
-                game = new GameHandler(textBlockP1.Text, "Computer");
+                game = new GameHandler(textBlockP1.Text, "Computer", false);
             }
             else if (vs == 1 && !String.IsNullOrEmpty(textBlockP1.Text) && !String.IsNullOrEmpty(textBlockP2.Text))
             {
@@ -177,7 +207,7 @@ namespace RockPaperScissors
                 GridButtonsP2.Visibility = Visibility.Visible;
                 GridStartButtons.Visibility = Visibility.Collapsed;
 
-                game = new GameHandler(textBlockP1.Text, textBlockP2.Text);
+                game = new GameHandler(textBlockP1.Text, textBlockP2.Text, false);
             }
             else
             {
@@ -397,7 +427,7 @@ namespace RockPaperScissors
             {
                 imageP2.Source = iPaper;
             }
-            else if(choiceP2 == 3)
+            else if (choiceP2 == 3)
             {
                 imageP2.Source = iScissors;
             }
