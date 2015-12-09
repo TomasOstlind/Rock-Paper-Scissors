@@ -49,7 +49,24 @@ namespace RockPaperScissors
         /// </summary>
         private void AssaignExistingGame()
         {
-            throw new NotImplementedException();
+            var games = (from g in App.connection.Table<GameHistory>()
+                         select g).Last();
+
+            nameP1 = games.NamePlayerOne;
+            nameP2 = games.NamePlayerTwo;
+
+            if (String.IsNullOrEmpty(games.RoundTwo) && !String.IsNullOrEmpty(games.RoundOne))
+            {
+                RoundCounter = 1;
+                PointsP1 = games.PointsPlayerOne;
+                PointsP2 = games.PointsPlayerTwo;
+            }
+            else if (String.IsNullOrEmpty(games.RoundThree) && !String.IsNullOrEmpty(games.RoundTwo))
+            {
+                RoundCounter = 2;
+                PointsP1 = games.PointsPlayerOne;
+                PointsP2 = games.PointsPlayerTwo;
+            }
         }
 
         /// <summary>
@@ -164,6 +181,8 @@ namespace RockPaperScissors
         /// </summary>
         private int CalcWinner(int choiceP1, int choiceP2)
         {
+            var games = (from g in App.connection.Table<GameHistory>()
+                         select g).Last();
             if (choiceP1 == choiceP2)
             {
                 return 1;
@@ -172,11 +191,15 @@ namespace RockPaperScissors
                 && choiceP2 == 1)
             {
                 PointsP1++;
+                games.PointsPlayerOne = PointsP1;
+                App.connection.Update(games);
                 return 2;
             }
             else
             {
                 PointsP2++;
+                games.PointsPlayerTwo = PointsP2;
+                App.connection.Update(games);
                 return 3;
             }
         }

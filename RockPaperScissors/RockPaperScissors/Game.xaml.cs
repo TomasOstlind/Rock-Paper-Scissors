@@ -49,6 +49,9 @@ namespace RockPaperScissors
         private void InitializePlayingGame()
         {
             AssaignImages();
+            imageP1.Source = iBeforeSelection;
+            imageP2.Source = iBeforeSelection;
+            textBlockWinner.Text = "";
 
             var games = (from g in App.connection.Table<GameHistory>()
                          select g).Last();
@@ -58,10 +61,12 @@ namespace RockPaperScissors
             if (games.NamePlayerTwo == "Computer")
             {
                 GridButtonsP1.Visibility = Visibility.Visible;
+                GridButtonsP2.Visibility = Visibility.Collapsed;
                 GridStartButtons.Visibility = Visibility.Collapsed;
             }
             else
             {
+                vs = 1;
                 GridButtonsP1.Visibility = Visibility.Visible;
                 GridButtonsP2.Visibility = Visibility.Visible;
                 GridStartButtons.Visibility = Visibility.Collapsed;
@@ -84,11 +89,11 @@ namespace RockPaperScissors
 
             if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne))
             {
-                return false;
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
         /// <summary>

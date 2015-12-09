@@ -118,13 +118,13 @@ namespace RockPaperScissors
             using (SQLite.Net.SQLiteConnection conn =
                 new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath))//The connection
             {
-                var tableExistsQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='GameHistoryDB'"; //SQL-Query
+                var tableExistsQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='GameHistory'"; //SQL-Query
                 var result = conn.ExecuteScalar<string>(tableExistsQuery);
                 if (result == null)
                 {
                     conn.CreateTable<GameHistory>();
-                    connection = conn;
                 }
+                connection = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), sqlpath);
             }
         }
     }
