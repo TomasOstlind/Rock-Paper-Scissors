@@ -95,6 +95,10 @@ namespace RockPaperScissors
             {
                 return true;
             }
+            else if (!String.IsNullOrEmpty(games.Winner))
+            {
+                return false;
+            }
             else
             {
                 App.connection.Execute("DELETE FROM GameHistory WHERE Game = ?", games.Game);
