@@ -85,9 +85,13 @@ namespace RockPaperScissors
         private bool CheckGamePlaying()
         {
             var games = (from g in App.connection.Table<GameHistory>()
-                         select g).Last();
+                         select g).LastOrDefault();
 
-            if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne) && !String.IsNullOrEmpty(games.RoundOne))
+            if (games == null)
+            {
+                return false;
+            }
+            else if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne) && !String.IsNullOrEmpty(games.RoundOne))
             {
                 return true;
             }
