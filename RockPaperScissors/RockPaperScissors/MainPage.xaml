@@ -8,7 +8,39 @@
     mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <!--BiggerScreens-->
+            <VisualStateGroup x:Name="BigScreen">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" MinWindowHeight="920"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InfoText.FontSize" 
+                                Value="50" />
+                        <Setter Target="InfoText.Width" 
+                                Value="1500" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <!--End BigScreens-->
+        </VisualStateManager.VisualStateGroups>
+
         <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
         <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+        <TextBlock x:Name="InfoText" HorizontalAlignment="Right"  TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FFDE880B" FontWeight="Bold" FontSize="24"  Width="539">
+            <Run x:Name="title" Text="Hello!"/>
+        	<Run Text=" "/>
+        	<LineBreak/>
+            <Run Text="This is simple game of Rock Paper Scissors (RPS)." />
+            <LineBreak/>
+            <Run Text="If you would like to have a look at the sourcecode for this, it can be found at GitHub." />
+            <LineBreak/>
+            <LineBreak/>
+            <Run Text="Enjoy the game and have fun :D" />
+            <LineBreak/>
+            <LineBreak/>
+            <Run Text="/Tomas" />
+        </TextBlock>
     </Grid>
 </Page>

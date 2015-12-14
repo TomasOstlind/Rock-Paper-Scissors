@@ -26,6 +26,9 @@ namespace RockPaperScissors
         {
             MyPane.SplitView.IsPaneOpen = !MyPane.SplitView.IsPaneOpen;
         }
+        /// <summary>
+        /// Initializes The GUI by adding all history from the SQLite db
+        /// </summary>
         private void InitializeGUI()
         {
             var sqlpath = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "GameHistoryDB.sqlite");
