@@ -34,8 +34,7 @@ namespace RockPaperScissors
             var games = from g in conn.Table<GameHistory>()
                         select g;
 
-            gridView.ItemsSource = games.ToList();
-            //TODO fix this
+              ListGameHistory.ItemsSource = games.ToList();
         }
     }
 }

@@ -8,9 +8,133 @@
     mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <!--BiggerScreens-->
+            <VisualStateGroup x:Name="BigScreen">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1024" MinWindowHeight="920"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ListGameHistory.Margin" 
+                                Value="50,62,0,0" />
+                        <Setter Target="ListGameHistory.Width" 
+                                Value="80" />
+                        <Setter Target="HistoryInfo.Width"
+                                Value="1790"/>
+                        <Setter Target="PlayerOne.FontSize"
+                                Value="50"/>
+                        <Setter Target="PlayerTwo.FontSize"
+                                Value="50"/>
+                        <Setter Target="NameP1.FontSize"
+                                Value="40"/>
+                        <Setter Target="NameP2.FontSize"
+                                Value="40"/>
+                        <Setter Target="PointsAndName.Height"
+                                Value="130"/>
+                        <Setter Target="PointsP1.FontSize"
+                                Value="50"/>
+                        <Setter Target="PointsP2.FontSize"
+                                Value="50"/>
+                        <Setter Target="PointsPlayerOne.FontSize"
+                                Value="50"/>
+                        <Setter Target="PointsPlayerTwo.FontSize"
+                                Value="50"/>
+                        <Setter Target="PointsPOne.Width"
+                                Value="500"/>
+                        <Setter Target="PointsPTwo.Width"
+                                Value="500"/>
+                        <Setter Target="RoundsGrid.Height"
+                                Value="130"/>
+                        <Setter Target="RoundOneText.FontSize" 
+                                Value="50"/>
+                        <Setter Target="RoundTwoText.FontSize" 
+                                Value="50"/>
+                        <Setter Target="RoundThreeText.FontSize" 
+                                Value="50"/>
+                        <Setter Target="RoundOne.FontSize" 
+                                Value="40"/>
+                        <Setter Target="RoundTwo.FontSize" 
+                                Value="40"/>
+                        <Setter Target="RoundThree.FontSize" 
+                                Value="40"/>
+                        <Setter Target="WinnerGrid.Height"
+                                Value="350"/>
+                        <Setter Target="WinnerText.FontSize" 
+                                Value="120"/>
+                        <Setter Target="Winner.FontSize" 
+                                Value="180"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <!--End BigScreens-->
+        </VisualStateManager.VisualStateGroups>
+
+        <ListView x:Name="ListGameHistory" Margin="48,48,0,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" Width="60" HorizontalAlignment="Left">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:GameHistory">
+                    <TextBlock Text="{x:Bind Game}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!--Grid For History-->
+        <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="HistoryInfo" HorizontalAlignment="Right" Width="532">
+            <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="PointsAndName" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="52">
+                <!--PlayerOneText-->
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <TextBlock Name="PlayerOne" Text="Player One" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Foreground="#FF0DA006" FontWeight="Bold"/>
+                </Grid>
+                <!--End PlayerOneText-->
+
+                <!--PlayerTwoText-->
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <TextBlock Name="PlayerTwo" Text="Player Two" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="20" Foreground="#FF0DA006" FontWeight="Bold" />
+                </Grid>
+                <!--End PlayerTwoText-->
+
+                <TextBlock Name="NameP1" Text="{Binding NamePlayerOne}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Blue" FontStyle="Italic" FontSize="18.667"/>
+                <TextBlock Name="NameP2" Text="{Binding NamePlayerTwo}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="Blue" FontStyle="Italic" FontSize="18.667" />
+
+                <!--Grid Points P1-->
+                <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="PointsPOne" VerticalAlignment="Top" HorizontalAlignment="Center" Width="175">
+                    <TextBlock Name="PointsP1" Text="Points Player One:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF0DA006" FontSize="18.667" FontWeight="Bold"/>
+                    <TextBlock Name="PointsPlayerOne" Text="{Binding PointsPlayerOne}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FF002EFF" FontSize="18.667" FontStyle="Italic"/>
+                </Grid>
+                <!--End Grid Points P1-->
+
+                <!--Grid Points P2-->
+                <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="PointsPTwo" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="175" >
+                    <TextBlock Name="PointsP2" Text="Points Player Two:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF0DA006" FontWeight="Bold" FontSize="18.667"/>
+                    <TextBlock Name="PointsPlayerTwo" Text="{Binding PointsPlayerTwo}" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#FF002EFF" FontSize="18.667" FontStyle="Italic"/>
+                </Grid>
+                <!--End Grid Points P2-->
+            </Grid>
+
+            <!--Grid for rounds-->
+            <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="RoundsGrid" Height="60" VerticalAlignment="Center">
+                <TextBlock Name="RoundOneText" Text="Round One" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF0DA006" FontWeight="Bold" FontSize="24"></TextBlock>
+                <TextBlock Name="RoundOne" Text="{Binding RoundOne}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="#FF002EFF" FontSize="18.667" FontStyle="Italic"/>
+                <TextBlock Name="RoundTwoText" Text="Round Two" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF0DA006" FontWeight="Bold" FontSize="24"></TextBlock>
+                <TextBlock Name="RoundTwo" Text="{Binding RoundTwo}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#FF002EFF" FontSize="18.667" FontStyle="Italic"/>
+                <TextBlock Name="RoundThreeText" Text="Round Three" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#FF0DA006" FontWeight="Bold" FontSize="24"></TextBlock>
+                <TextBlock Name="RoundThree" Text="{Binding RoundThree}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF002EFF" FontSize="18.667" FontStyle="Italic"/>
+            </Grid>
+            <!--End Grid for rounds-->
+
+            <!--Grid Winner-->
+            <Grid DataContext="{Binding SelectedItem, ElementName=ListGameHistory}" Name="WinnerGrid" Height="160" VerticalAlignment="Bottom">
+                <TextBlock Name="WinnerText" Text="Winner" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFEC0B0B" FontWeight="Bold" FontSize="48" />
+                <TextBlock Name="Winner" Text="{Binding Winner}" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontStyle="Italic" FontSize="76" Foreground="#FFDE880B" />
+            </Grid>
+            <!--Grid Winner-->
+
+        </Grid>
+        <!--End Grid For History-->
+
+        <!--Menu-->
         <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
         <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
-        <GridView x:Name="gridView" HorizontalAlignment="Left" Margin="755,607,0,0" VerticalAlignment="Top" Width="100"/>
-
+        <!--End Menu-->
     </Grid>
 </Page>

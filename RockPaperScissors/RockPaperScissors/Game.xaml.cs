@@ -87,12 +87,13 @@ namespace RockPaperScissors
             var games = (from g in App.connection.Table<GameHistory>()
                          select g).Last();
 
-            if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne))
+            if (String.IsNullOrEmpty(games.Winner) && !String.IsNullOrEmpty(games.NamePlayerOne) && !String.IsNullOrEmpty(games.RoundOne))
             {
                 return true;
             }
             else
             {
+                App.connection.Execute("DELETE FROM GameHistory WHERE Game = ?", games.Game);
                 return false;
             }
         }
