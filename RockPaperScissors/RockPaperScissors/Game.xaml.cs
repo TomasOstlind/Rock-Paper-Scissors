@@ -227,7 +227,7 @@ namespace RockPaperScissors
             {
                 var msg = new Windows.UI.Popups.MessageDialog("You must enter name(s) to play!", "Name(s) needed!");
 
-                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game
+                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game. And I can´t find another way of using pop-up-message
             }
         }
         /// <summary>
@@ -457,7 +457,7 @@ namespace RockPaperScissors
                 var msg = new Windows.UI.Popups.MessageDialog(
                "Sorry! The name can´t be longer than six letters.", "Name to long");
 
-                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game
+                msg.ShowAsync(); //Im aware of the async but in this case i dont need async and I think this do not affect the game. And I can´t find another way of using pop-up-message
 
                 return false;
             }
