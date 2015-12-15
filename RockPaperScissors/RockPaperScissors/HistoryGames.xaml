@@ -13,7 +13,7 @@
             <VisualStateGroup x:Name="BigScreen">
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1024" MinWindowHeight="920"/>
+                        <AdaptiveTrigger MinWindowWidth="720" MinWindowHeight="920"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ListGameHistory.Margin" 
