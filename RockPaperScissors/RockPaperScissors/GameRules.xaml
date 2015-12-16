@@ -34,9 +34,9 @@
             <!--End BigScreens-->
         </VisualStateManager.VisualStateGroups>
 
-        
+
         <Image x:Name="image" HorizontalAlignment="Right" Height="301" Margin="306,49,0,0" VerticalAlignment="Center" Width="270" Source="Assets/rules.jpg"/>
-        
+
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <TextBlock x:Name="textBlockRules" HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="339">
         	<Run x:Name="title" FontSize="18.6666666666667" Text="Rules of the Game!"/>
@@ -58,7 +58,9 @@
         	<LineBreak/>
         	<Run Text=""/>
         	<LineBreak/>
-        	<Run Text="You ca choose to play against a friend or the A.I, what ever you choose the rules are the same! "/>
+        	<Run Text="You can choose to play against a friend or the A.I, whatever you choose the rules are the same! "/>
+            <LineBreak/>
+        	<Run Text="The one that gets the most points after three games are the winner."/>
             </TextBlock>
         </ScrollViewer>
         <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
