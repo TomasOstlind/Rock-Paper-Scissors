@@ -168,7 +168,7 @@
         </Grid>
         <!--End Buttons-->
 
-        <TextBlock x:Name="textBlockWinner" HorizontalAlignment="Center" Margin="0,291,0,5" TextWrapping="Wrap" Text="Tomas wins!" VerticalAlignment="Bottom" FontSize="53.333" Foreground="#FFD61717" SelectionHighlightColor="#FF060400" RequestedTheme="Dark"/>
+        <TextBlock x:Name="textBlockWinner" HorizontalAlignment="Center" Margin="0,291,0,5" TextWrapping="Wrap" Text="Tomas wins!" VerticalAlignment="Bottom" FontSize="50.333" Foreground="#FFD61717" SelectionHighlightColor="#FF060400" RequestedTheme="Dark"/>
         <TextBlock x:Name="textBlockPointsP1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Height="69" FontSize="53.333" Foreground="#FFC56210"/>
         <TextBlock x:Name="textBlockPointsP2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Height="69" FontSize="53.333" Foreground="#FFC56210"/>
 

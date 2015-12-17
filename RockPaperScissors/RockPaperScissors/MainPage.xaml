@@ -25,9 +25,6 @@
             </VisualStateGroup>
             <!--End BigScreens-->
         </VisualStateManager.VisualStateGroups>
-
-        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
-        <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
         <TextBlock x:Name="InfoText" HorizontalAlignment="Right"  TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FFDE880B" FontWeight="Bold" FontSize="24"  Width="539">
             <Run x:Name="title" Text="Hello!"/>
         	<Run Text=" "/>
@@ -42,5 +39,7 @@
             <LineBreak/>
             <Run Text="/Tomas" />
         </TextBlock>
+        <Button Style="{StaticResource SplitViewTogglePaneButtonStyle}" RequestedTheme="Dark" Click="SplitView"/>
+        <local:MenuPane x:Name="MyPane" Grid.ColumnSpan="2" Grid.RowSpan="3" />
     </Grid>
 </Page>

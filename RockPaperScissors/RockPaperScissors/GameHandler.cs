@@ -14,6 +14,7 @@ namespace RockPaperScissors
         private Random rnd = new Random();
         private int[] hands = new int[] { 1, 2, 3 }; // 1 = Rock | 2 = Paper | 3 = Scissors
         private int computerChoice;
+        private bool newGame = true;
 
         //-----------------Properties-----------------------------
         #region props
@@ -32,11 +33,7 @@ namespace RockPaperScissors
         {
             nameP1 = nameInP1;
             nameP2 = nameInP2;
-            if (!playing)
-            {
-                CreateGameInDB();
-            }
-            else
+            if (playing)
             {
                 AssaignExistingGame();
             }
@@ -54,6 +51,7 @@ namespace RockPaperScissors
 
             nameP1 = games.NamePlayerOne;
             nameP2 = games.NamePlayerTwo;
+            newGame = false;
 
             if (String.IsNullOrEmpty(games.RoundTwo) && !String.IsNullOrEmpty(games.RoundOne))
             {
@@ -75,27 +73,25 @@ namespace RockPaperScissors
         /// <returns></returns>
         public string CalcTotalWinner()
         {
+            newGame = true;
             var games = (from g in App.connection.Table<GameHistory>()
-                         select g).Last();
+                         select g).LastOrDefault();
             if (PointsP1 == PointsP2)
             {
                 games.Winner = "No winner, tie!";
                 App.connection.Update(games);
-                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return "No winner, tie!";
             }
             else if (PointsP1 > PointsP2)
             {
                 games.Winner = nameP1;
                 App.connection.Update(games);
-                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return nameP1;
             }
             else
             {
                 games.Winner = nameP2;
                 App.connection.Update(games);
-                App.connection.Insert(new GameHistory { NamePlayerOne = nameP1, NamePlayerTwo = nameP2 });
                 return nameP2;
             }
         }
@@ -114,6 +110,11 @@ namespace RockPaperScissors
         /// <returns></returns>
         public int Start(int choiceP1, int choiceP2)
         {
+            if (newGame)
+            {
+                CreateGameInDB();
+                newGame = false;
+            }
             RoundCounter++;
 
             if (choiceP2 == 0)

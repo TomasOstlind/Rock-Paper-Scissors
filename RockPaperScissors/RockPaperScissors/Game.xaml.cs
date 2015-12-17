@@ -51,7 +51,7 @@ namespace RockPaperScissors
             AssaignImages();
             imageP1.Source = iBeforeSelection;
             imageP2.Source = iBeforeSelection;
-            textBlockWinner.Text = "";
+            textBlockWinner.Text = "";           
 
             var games = (from g in App.connection.Table<GameHistory>()
                          select g).Last();
@@ -95,13 +95,8 @@ namespace RockPaperScissors
             {
                 return true;
             }
-            else if (!String.IsNullOrEmpty(games.Winner))
-            {
-                return false;
-            }
             else
             {
-                App.connection.Execute("DELETE FROM GameHistory WHERE Game = ?", games.Game);
                 return false;
             }
         }
